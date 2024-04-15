@@ -31,7 +31,7 @@ public class Puzzle {
          for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
             randomNumbers[row][col] = getRandomNumber(1, 9); 
 
-            if (randomNumbers[row][col])
+            // if (randomNumbers[row][col])
             System.out.println(randomNumbers[row][col]);
          }
       }
