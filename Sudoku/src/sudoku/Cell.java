@@ -18,7 +18,8 @@ public class Cell extends JTextField {
    public static final Color BG_TO_GUESS  = Color.YELLOW;
    public static final Color BG_CORRECT_GUESS = new Color(0, 216, 0);
    public static final Color BG_WRONG_GUESS   = new Color(216, 0, 0);
-   public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
+   public static final Color BG_COMMON_GUESS   = new Color(255, 0, 255);
+   public static final Font FONT_NUMBERS = new Font("A Extended", Font.PLAIN, 28);
 
    // Define properties (package-visible)
    /** The row and column number [0-8] of this cell */
@@ -45,6 +46,7 @@ public class Cell extends JTextField {
       paint();    // paint itself
    }
 
+
    /** This Cell (JTextField) paints itself based on its status */
    public void paint() {
       if (status == CellStatus.GIVEN) {
@@ -60,9 +62,16 @@ public class Cell extends JTextField {
          super.setBackground(BG_TO_GUESS);
          super.setForeground(FG_NOT_GIVEN);
       } else if (status == CellStatus.CORRECT_GUESS) {  // from TO_GUESS
+         SoundEffect.CORRECT.play();
          super.setBackground(BG_CORRECT_GUESS);
       } else if (status == CellStatus.WRONG_GUESS) {    // from TO_GUESS
+         SoundEffect.WRONG.play();
          super.setBackground(BG_WRONG_GUESS);
       }
+
+      /*if(CellStatus.GIVEN ==){
+        super.setBackground(BG_COMMON_GUESS);
+      } */
    }
+
 }
