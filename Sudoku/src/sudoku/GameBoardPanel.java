@@ -20,7 +20,7 @@ public class GameBoardPanel extends JPanel {
    private Puzzle puzzle = new Puzzle();
 
    /** Constructor */
-   public GameBoardPanel() {
+   public GameBoardPanel(){
       super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel
 
       // Allocate the 2D array of Cell, and added into JPanel.
