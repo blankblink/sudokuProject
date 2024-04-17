@@ -60,8 +60,10 @@ public class Cell extends JTextField {
          super.setBackground(BG_TO_GUESS);
          super.setForeground(FG_NOT_GIVEN);
       } else if (status == CellStatus.CORRECT_GUESS) {  // from TO_GUESS
+         SoundEffect.CORRECT.play();
          super.setBackground(BG_CORRECT_GUESS);
       } else if (status == CellStatus.WRONG_GUESS) {    // from TO_GUESS
+         SoundEffect.WRONG.play();
          super.setBackground(BG_WRONG_GUESS);
       }
    }

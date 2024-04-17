@@ -127,8 +127,14 @@ public class GameBoardPanel extends JPanel {
       isSolved(); 
       if (isSolved() == true)
       {
-         JOptionPane.showMessageDialog(null,"Congratluation!", 
+         SoundEffect.BGM.stop();
+         SoundEffect.CORRECT.stop();
+         SoundEffect.CONGRATULATION.play();
+         JOptionPane.showMessageDialog(null,"Congratulation!", 
          "Game Completed", JOptionPane.INFORMATION_MESSAGE);
+         
+         SoundEffect.CONGRATULATION.stop();
+         SoundEffect.BGM.stillplay();
       } 
        /*
         * [TODO 6] (later)

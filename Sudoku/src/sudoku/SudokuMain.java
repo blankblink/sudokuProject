@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 /**
@@ -31,18 +30,20 @@ public class SudokuMain extends JFrame {
       userPanel.setBackground(Color.decode("#D4D4D4"));
       userPanel.setLayout(new GridLayout(2, 4, 50, 20)); 
 
-      JButton newGameBtn = new JButton("New Game"); 
-      JButton button2 = new JButton("Button 2"); 
 
-      JButton button3 = new JButton("Button 3 "); 
+      JButton muteBtn = new JButton("mute"); 
+      muteBtn.setSize(20, 50);
+      userPanel.add(muteBtn); 
+
+      JButton unmuteBtn = new JButton("unmute"); 
+      unmuteBtn.setSize(20, 50);
+      userPanel.add(unmuteBtn);
+
+      JButton newGameBtn = new JButton("New Game"); 
 
       newGameBtn.setSize(20, 50); 
-      button2.setSize(20, 50);
-      button3.setSize(20, 50);
 
       userPanel.add(newGameBtn);
-      userPanel.add(button2);
-      userPanel.add(button3);
 
       cp.add(board, BorderLayout.CENTER); 
       cp.add(userPanel, BorderLayout.NORTH);
@@ -65,19 +66,32 @@ public class SudokuMain extends JFrame {
             board.newGame();
          }
       });
-      newGameBtn.addChangeListener(new ButtonHoverListener());
+      //newGameBtn.addChangeListener(new ButtonHoverListener());
+
+      unmuteBtn.addActionListener(new ActionListener() 
+      {
+         @Override
+         public void actionPerformed(ActionEvent e)
+         {
+            SoundEffect.BGM.unmute();
+            SoundEffect.BGM.stillplay();
+         }
+      }); 
+
+      muteBtn.addActionListener(new ActionListener() 
+      {
+         @Override
+         public void actionPerformed(ActionEvent e)
+         {
+            SoundEffect.BGM.stop();
+            SoundEffect.CORRECT.mute();  
+         }
+      });
+
+
    } 
 
-   // private class ButtonHoverListener implements ChangeListener {
-   //    @Override
-   //    public void stateChanged(ChangeEvent e)
-   //    {
-   //       JButton source = (JButton)e.getSource();
-   //       ButtonModel model = source.getModel();
-
-   //       model.isRollover()
-   //    }
-   // }
+   
 
    private class ButtonHoverListener implements ChangeListener {
 
@@ -102,6 +116,8 @@ public class SudokuMain extends JFrame {
       //  the constructor of "SudokuMain"
       // ......... 
 
+
+      SoundEffect.BGM.stillplay();
       // Run GUI codes in the Event-Dispatching thread for thread safety
       SwingUtilities.invokeLater(new Runnable() {
          @Override
