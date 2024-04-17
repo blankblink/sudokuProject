@@ -27,12 +27,12 @@ public class SudokuMain extends JFrame {
    public SudokuMain() {
       
       JPanel userPanel = new JPanel();
-      userPanel.setBackground(Color.decode("#D4D4D4"));
-      userPanel.setLayout(new GridLayout(2, 4, 50, 20)); 
+      userPanel.setBackground(Color.decode("#FFFF99")); //lightmode darkmode  BDB76B
+      userPanel.setLayout(new FlowLayout(1, 5, 20)); 
 
       JButton muteBtn = new JButton("mute"); 
       muteBtn.setSize(20, 50);
-      userPanel.add(muteBtn);
+      userPanel.add(muteBtn); 
 
       JButton unmuteBtn = new JButton("unmute"); 
       unmuteBtn.setSize(20, 50);
@@ -63,7 +63,7 @@ public class SudokuMain extends JFrame {
       setVisible(true); 
    
     
-   newGameBtn.addActionListener(new ActionListener() 
+      newGameBtn.addActionListener(new ActionListener() 
       {
          @Override
          public void actionPerformed(ActionEvent e)
@@ -79,8 +79,8 @@ public class SudokuMain extends JFrame {
          @Override
          public void actionPerformed(ActionEvent e)
          {
-            SoundEffect.BGM.stillplay();
             SoundEffect.BGM.unmute();
+            SoundEffect.BGM.stillplay();
             
          }
       });
