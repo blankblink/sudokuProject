@@ -17,7 +17,6 @@ public class SudokuMain extends JFrame {
 
    // private variables
    GameBoardPanel board = new GameBoardPanel(); 
-   
    JButton resetBtn = new JButton("Reset"); 
 
    // Constructor
@@ -28,8 +27,7 @@ public class SudokuMain extends JFrame {
       /* user Panel */ 
       JPanel userPanel = new JPanel();
       userPanel.setBackground(Color.decode("#D4D4D4"));
-      userPanel.setLayout(new GridLayout(2, 4, 50, 20)); 
-
+      userPanel.setLayout(new FlowLayout()); 
 
       JButton muteBtn = new JButton("mute"); 
       muteBtn.setSize(20, 50);
@@ -41,9 +39,12 @@ public class SudokuMain extends JFrame {
 
       JButton newGameBtn = new JButton("New Game"); 
 
+      JRadioButton darkModeBtn = new JRadioButton("Dark Mode");
+
       newGameBtn.setSize(20, 50); 
 
-      userPanel.add(newGameBtn);
+      userPanel.add(newGameBtn); 
+      userPanel.add(darkModeBtn);
 
       cp.add(board, BorderLayout.CENTER); 
       cp.add(userPanel, BorderLayout.NORTH);
@@ -86,19 +87,31 @@ public class SudokuMain extends JFrame {
             SoundEffect.BGM.stop();
             SoundEffect.CORRECT.mute();  
          }
+      }); 
+
+      darkModeBtn.addActionListener(new ActionListener() {
+         @Override 
+         public void actionPerformed(ActionEvent e)
+         {
+            if (darkModeBtn.isSelected())
+            {
+               for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                  for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                     board.cells[row][col].Dpaint();
+                  }
+               }
+            }
+         }
       });
 
-
    } 
-
-   
 
    private class ButtonHoverListener implements ChangeListener {
 
       @Override
       public void stateChanged(ChangeEvent e) {
          JButton source = (JButton) e.getSource();
-         ButtonModel model = source.getModel();
+         ButtonModel model = source.getModel(); 
       }
    }
 

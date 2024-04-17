@@ -20,12 +20,6 @@ public class Puzzle {
 
     private static Random ran = new Random(); 
 
-    Integer exclude[] = {0}; 
-    Integer Vexclude[]= {0}; 
-
-    ArrayList<Integer> excludeList = new ArrayList<Integer>(Arrays.asList(exclude)); 
-    ArrayList<Integer> VexcludeList = new ArrayList<Integer>(Arrays.asList(Vexclude));
-
     // Constructor
     public Puzzle() {
       numbers = new int[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
@@ -202,75 +196,6 @@ public class Puzzle {
       }
    } 
 
-
-    public int getRandomNumber(int min, int max)
-    { 
-      int randomNum = min + (int)(Math.random() * ((max - min) + 1));
-      if (excludeList.size() > 0)
-      {
-         while (excludeList.contains(randomNum))
-         {
-            randomNum = min + (int)(Math.random() * ((max - min) + 1));
-            if (!excludeList.contains(randomNum))
-            {
-               return randomNum;
-            } 
-         }
-         // for (int i = 0; i < SudokuConstants.GRID_SIZE; i++) 
-         // {
-         //    randomNum = min + (int)(Math.random() * ((max - min) + 1));
-         //    if (!excludeList.contains(randomNum))
-         //    {
-         //       return randomNum;
-         //    } 
-         // }
-      }
-
-      return randomNum;
-   } 
-
-    public int bGetRandom(int min, int max, int nc)
-    {
-      if (nc == 0)
-      {
-         excludeList.clear();
-      }
-
-      int bRandomNum = min + (int)(Math.random() * ((max - min) + 1));
-      System.out.println("BTRY check" + bRandomNum);
-
-      if (VexcludeList.size() > 0)
-      {
-         System.out.println("debug " + excludeList.size());
-         if (nc > 0)
-         {
-            System.out.println(VexcludeList + " " + excludeList);
-            while ((VexcludeList.contains(bRandomNum)) && (excludeList.contains(bRandomNum)))
-            {
-               bRandomNum = min + (int)(Math.random() * ((max - min) + 1));
-               if ((!VexcludeList.contains(bRandomNum)) && (!excludeList.contains(bRandomNum)))
-               {
-                  System.out.println("B CHECKA: " + bRandomNum);
-                  return bRandomNum;
-               } 
-            }
-         }
-
-   
-         while ((VexcludeList.contains(bRandomNum)))
-         {
-            bRandomNum = min + (int)(Math.random() * ((max - min) + 1));
-            if ((!VexcludeList.contains(bRandomNum)))
-            {
-               System.out.println("B CHECK: " + bRandomNum);
-               return bRandomNum;
-            } 
-         }
-      }
-
-      System.out.println("B CHECK2: " + bRandomNum);
-      return bRandomNum;
-    }
  
     // Generate a new puzzle given the number of cells to be guessed, which can be used
     //  to control the difficulty level.
@@ -306,8 +231,8 @@ public class Puzzle {
           {{true, true, true, true, true, false, true, true, true},
            {true, true, true, true, true, true, true, true, false},
            {true, true, true, true, true, true, true, true, true},
-           {true, true, true, true, true, true, true, true, true},
-           {true, true, true, true, true, true, true, true, true},
+           {true, true, false, true, true, true, true, true, true},
+           {true, true, false, true, true, true, true, true, true},
            {true, true, true, true, true, true, true, true, true},
            {true, true, true, true, true, true, true, true, true},
            {true, true, true, true, true, true, true, true, true},
