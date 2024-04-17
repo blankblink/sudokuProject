@@ -29,15 +29,23 @@ public class SudokuMain extends JFrame {
       /* user Panel */ 
       JPanel userPanel = new JPanel();
       userPanel.setBackground(Color.decode("#D4D4D4"));
-      userPanel.setLayout(new GridLayout(2, 4, 2, 20)); 
+      userPanel.setLayout(new GridLayout(2, 4, 50, 20)); 
 
       JButton newGameBtn = new JButton("New Game"); 
+      JButton button2 = new JButton("Button 2"); 
+
+      JButton button3 = new JButton("Button 3 "); 
+
       newGameBtn.setSize(20, 50); 
+      button2.setSize(20, 50);
+      button3.setSize(20, 50);
 
       userPanel.add(newGameBtn);
+      userPanel.add(button2);
+      userPanel.add(button3);
 
       cp.add(board, BorderLayout.CENTER); 
-      cp.add(userPanel, BorderLayout.SOUTH);
+      cp.add(userPanel, BorderLayout.NORTH);
       // Add a button to the south to re-start the game via board.newGame()
       // ......
 
