@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Window.Type;
 
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 /**
  * The Cell class model the cells of the Sudoku puzzle, by customizing (subclass)
@@ -36,7 +37,7 @@ public class Cell extends JTextField {
    
    // Define properties (package-visible)
    /** The row and column number [0-8] of this cell */
-   int row, col;
+   int row, col; 
    /** The puzzle number [1-9] for this cell */
    int number;
    /** The status of this cell defined in enum CellStatus */

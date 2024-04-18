@@ -3,7 +3,6 @@ package sudoku;
 import java.util.Random;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Puzzle {
@@ -71,7 +70,6 @@ public class Puzzle {
          }
       } 
 
-      /*------------------------ View Generated Sudoku -------------------------------------*/
       for (int a = 0; a < 9; a++) {
          for (int b = 0; b < 9; b++) {
             System.out.print(generateNumbers[a][b]);

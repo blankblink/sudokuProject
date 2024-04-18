@@ -19,6 +19,7 @@ public class SudokuMain extends JFrame {
 
    // Constructor
    public SudokuMain() {
+      super();
       Container cp = getContentPane(); 
       cp.setLayout(new BorderLayout()); 
 
