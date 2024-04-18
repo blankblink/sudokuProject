@@ -45,15 +45,7 @@ public class GameBoardPanel extends JPanel {
             if (cells[row][col].isEditable())
             {
                cells[row][col].addActionListener(listener); 
-               System.out.println("if u see this, something is wrong");
             } 
-
-            if (cells[row][col].status == CellStatus.CORRECT_GUESS)
-            {
-               System.out.println("yesyes");
-               cells[row][col].removeActionListener(listener);
-               System.out.println("removed");
-            }
          }
       }
 
