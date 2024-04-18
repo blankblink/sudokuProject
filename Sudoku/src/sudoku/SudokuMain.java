@@ -17,7 +17,7 @@ public class SudokuMain extends JFrame {
 
    // private variables
    GameBoardPanel board = new GameBoardPanel(); 
-   JButton resetBtn = new JButton("Reset"); 
+   JButton resetBtn = new JButton("Reset");
 
    // Constructor
    public SudokuMain() {
@@ -39,11 +39,16 @@ public class SudokuMain extends JFrame {
 
       JButton newGameBtn = new JButton("New Game"); 
 
-      JRadioButton darkModeBtn = new JRadioButton("Dark Mode");
+      JRadioButton lightModeBtn = new JRadioButton("Light Mode");
+      JRadioButton darkModeBtn = new JRadioButton("Dark Mode"); 
+
+      lightModeBtn.setSelected(true);
+      lightModeBtn.setEnabled(false);
 
       newGameBtn.setSize(20, 50); 
 
       userPanel.add(newGameBtn); 
+      userPanel.add(lightModeBtn);
       userPanel.add(darkModeBtn);
 
       cp.add(board, BorderLayout.CENTER); 
@@ -89,12 +94,35 @@ public class SudokuMain extends JFrame {
          }
       }); 
 
+      lightModeBtn.addActionListener(new ActionListener() {
+         @Override 
+         public void actionPerformed(ActionEvent e)
+         {
+            if (lightModeBtn.isSelected())
+            {
+               darkModeBtn.setSelected(false);
+               darkModeBtn.setEnabled(true);
+               lightModeBtn.setEnabled(false);
+
+               for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                  for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                     board.cells[row][col].paint();
+                  }
+               }
+            }
+         }
+      });
+
       darkModeBtn.addActionListener(new ActionListener() {
          @Override 
          public void actionPerformed(ActionEvent e)
          {
             if (darkModeBtn.isSelected())
             {
+               lightModeBtn.setSelected(false);
+               lightModeBtn.setEnabled(true); 
+               darkModeBtn.setEnabled(false);
+
                for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
                   for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
                      board.cells[row][col].Dpaint();
@@ -105,15 +133,6 @@ public class SudokuMain extends JFrame {
       });
 
    } 
-
-   private class ButtonHoverListener implements ChangeListener {
-
-      @Override
-      public void stateChanged(ChangeEvent e) {
-         JButton source = (JButton) e.getSource();
-         ButtonModel model = source.getModel(); 
-      }
-   }
 
    private static void createAndShowGUI() {
     JFrame frame = new JFrame("Sudoku");

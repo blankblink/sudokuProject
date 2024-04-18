@@ -1,9 +1,10 @@
 package sudoku;
 
+import java.util.Random;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 
 public class Puzzle {
     // All variables have package access
@@ -15,6 +16,7 @@ public class Puzzle {
 
     static int[][] temp; 
     static int[][] generateNumbers = new int[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
+
     static boolean[][] generateIsShown; 
     boolean[][] isShown; 
 
@@ -35,11 +37,11 @@ public class Puzzle {
 
       ArrayList<Integer> randomnumber = getRandomNum();
 
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            generateNumbers[i][j] = 0;
-            if (((j + 2) % 2) == 0 && ((i + 2) % 2) == 0) {
-               generateNumbers[i][j] = randomnumber.get(count);
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            generateNumbers[a][b] = 0;
+            if (((b + 2) % 2) == 0 && ((a + 2) % 2) == 0) {
+               generateNumbers[a][b] = randomnumber.get(count);
                count++;
                if (count == 9) {
                   count = 0;
@@ -51,34 +53,36 @@ public class Puzzle {
       if (search(generateNumbers)) {
          System.out.println("OK !!");
       }
+
+      //Generating sudoku display for player to see
       int rann = ran.nextInt(numToGuess);
       int c = 0;
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            temp[i][j] = 0;
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            temp[a][b] = 0;
             if (c < rann) {
                c++;
                continue;
             } else {
                rann = ran.nextInt(numToGuess);
-               c = 0;
-               temp[i][j] = generateNumbers[i][j];
+               c = 0; 
+               temp[a][b] = generateNumbers[a][b];
             }
          }
-      }
+      } 
 
       /*------------------------ View Generated Sudoku -------------------------------------*/
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            System.out.print(generateNumbers[i][j]);
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            System.out.print(generateNumbers[a][b]);
          }
          System.out.println();
       }
       System.out.println("---------");
 
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            System.out.print(temp[i][j]);
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            System.out.print(temp[a][b]);
          }
          System.out.println();
       }
@@ -88,9 +92,9 @@ public class Puzzle {
    {
 
       int numberOfFreeCells = 0;
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            if (grid[i][j] == 0) {
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            if (grid[a][b] == 0) {
                numberOfFreeCells++;
             }
          }
@@ -98,11 +102,11 @@ public class Puzzle {
 
       int[][] freeCellList = new int[numberOfFreeCells][2];
       int count = 0;
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            if (grid[i][j] == 0) {
-               freeCellList[count][0] = i;
-               freeCellList[count][1] = j;
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            if (grid[a][b] == 0) {
+               freeCellList[count][0] = a;
+               freeCellList[count][1] = b;
                count++;
             }
          }
@@ -119,14 +123,16 @@ public class Puzzle {
 
       while (!found) {
          // get free element one by one
-         int i = freeCellList[k][0];
-         int j = freeCellList[k][1];
+         int a = freeCellList[k][0];
+         int b = freeCellList[k][1];
+
          // if element equal 0 give 1 to first test
-         if (grid[i][j] == 0) {
-            grid[i][j] = 1;
+         if (grid[a][b] == 0) {
+            grid[a][b] = 1;
          }
+
          // now check 1 if is available
-         if (isAvailable(i, j, grid)) {
+         if (isAvailable(a, b, grid)) {
             // if free is equal k ==> board solved
             if (k + 1 == freeCellList.length) {
                found = true;
@@ -135,21 +141,21 @@ public class Puzzle {
             }
          }
          // increase element by 1
-         else if (grid[i][j] < 9) {
-            grid[i][j] = grid[i][j] + 1;
+         else if (grid[a][b] < 9) {
+            grid[a][b] = grid[a][b] + 1;
          }
          // now if element value equal 9 backtrack to later element
          else {
-            while (grid[i][j] == 9) {
-               grid[i][j] = 0;
+            while (grid[a][b] == 9) {
+               grid[a][b] = 0;
                if (k == 0) {
                   return false;
                }
                k--; // backtrack to later element
-               i = freeCellList[k][0];
-               j = freeCellList[k][1];
+               a = freeCellList[k][0];
+               b = freeCellList[k][1];
             }
-            grid[i][j] = grid[i][j] + 1;
+            grid[a][b] = grid[a][b] + 1;
          }
       }
 
@@ -226,16 +232,15 @@ public class Puzzle {
       }
  
        // Need to use input parameter cellsToGuess!
-       // Hardcoded for testing, only 2 cells of "8" is NOT GIVEN
        boolean[][] hardcodedIsGiven =
-          {{true, true, true, true, true, false, true, true, true},
+          {{true, false,  true, true, true,  true, true, true, true},
+           {true, true, true,  true, true, true, true, true,  true},
+           {true, true, true, true, true, true, true, true, true},
+           {true, true, true, true, true, false, true, true, true},
            {true, true, true, true, true, true, true, true, false},
+           {true, false, true, true, true, true, true, false, true},
            {true, true, true, true, true, true, true, true, true},
            {true, true, false, true, true, true, true, true, true},
-           {true, true, false, true, true, true, true, true, true},
-           {true, true, true, true, true, true, true, true, true},
-           {true, true, true, true, true, true, true, true, true},
-           {true, true, true, true, true, true, true, true, true},
            {true, true, true, true, true, true, true, true, true}};
  
        // Copy from hardcodedIsGiven into array "isGiven"
