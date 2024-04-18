@@ -80,14 +80,19 @@ public class GameBoardPanel extends JPanel {
             }
          }
       } 
-      return true; 
+      return true;
+       
    }
+
+   
 
    private class CellInputListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
        // Get a reference of the JTextField that triggers this action event
        Cell sourceCell = (Cell)e.getSource();
+
+      System.out.println("jojojojojojo " + sourceCell);
        
        // Retrieve the int entered
        int numberIn = Integer.parseInt(sourceCell.getText());
@@ -136,6 +141,9 @@ public class GameBoardPanel extends JPanel {
          SoundEffect.CONGRATULATION.stop();
          SoundEffect.BGM.stillplay();
       } 
+      
+
+      
        /*
         * [TODO 6] (later)
         * Check if the player has solved the puzzle after this move,

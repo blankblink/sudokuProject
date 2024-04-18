@@ -32,7 +32,7 @@ public enum SoundEffect {
    }
 
    public static Volume volume = Volume.LOW;
-   
+
    /** Each sound effect has its own clip, loaded with its own sound file. */
    private Clip clip;
 
@@ -71,7 +71,7 @@ public enum SoundEffect {
     if (volume != Volume.MUTE) {
        clip.start();     // Start playing
     }
-   }
+ }
 
 
    public void stop() {
@@ -79,16 +79,14 @@ public enum SoundEffect {
    }
    
    public void mute() {
-     
-        //set volume to MUTE
-        System.out.println("lol");
+      
+        // Additional logic to set volume to MUTE
         volume = Volume.MUTE;
     }
    
     public void unmute() {
-         
-        //set volume to LOW
-        System.out.println("hello??");
+      
+        // Additional logic to set volume to MUTE
         volume = Volume.LOW;
       }
     
