@@ -81,14 +81,12 @@ public enum SoundEffect {
    public void mute() {
      
         //set volume to MUTE
-        System.out.println("lol");
         volume = Volume.MUTE;
     }
    
     public void unmute() {
          
         //set volume to LOW
-        System.out.println("hello??");
         volume = Volume.LOW;
       }
     

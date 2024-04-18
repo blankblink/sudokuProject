@@ -3,7 +3,6 @@ package sudoku;
 import java.util.Random;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Puzzle {
@@ -16,16 +15,11 @@ public class Puzzle {
 
     static int[][] temp; 
     static int[][] generateNumbers = new int[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
+
     static boolean[][] generateIsShown; 
     boolean[][] isShown; 
 
     private static Random ran = new Random(); 
-
-    Integer exclude[] = {0}; 
-    Integer Vexclude[]= {0}; 
-
-    ArrayList<Integer> excludeList = new ArrayList<Integer>(Arrays.asList(exclude)); 
-    ArrayList<Integer> VexcludeList = new ArrayList<Integer>(Arrays.asList(Vexclude));
 
     // Constructor
     public Puzzle() {
@@ -42,11 +36,11 @@ public class Puzzle {
 
       ArrayList<Integer> randomnumber = getRandomNum();
 
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            generateNumbers[i][j] = 0;
-            if (((j + 2) % 2) == 0 && ((i + 2) % 2) == 0) {
-               generateNumbers[i][j] = randomnumber.get(count);
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            generateNumbers[a][b] = 0;
+            if (((b + 2) % 2) == 0 && ((a + 2) % 2) == 0) {
+               generateNumbers[a][b] = randomnumber.get(count);
                count++;
                if (count == 9) {
                   count = 0;
@@ -56,107 +50,115 @@ public class Puzzle {
       }
 
       if (search(generateNumbers)) {
-         System.out.println("OK !!");
-      }
-      int rann = ran.nextInt(numToGuess);
-      int c = 0;
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            temp[i][j] = 0;
-            if (c < rann) {
-               c++;
-               continue;
-            } else {
-               rann = ran.nextInt(numToGuess);
-               c = 0;
-               temp[i][j] = generateNumbers[i][j];
-            }
-         }
+         System.out.println("generate");
       }
 
-      /*------------------------ View Generated Sudoku -------------------------------------*/
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            System.out.print(generateNumbers[i][j]);
+      //Generating sudoku display for player to see
+      int rand = ran.nextInt(numToGuess);
+      int c = 0;
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            temp[a][b] = 0;
+            if (c < rand) {
+               c++;
+               continue;
+            } 
+            
+            else {
+               rand = ran.nextInt(numToGuess);
+               c = 0; 
+               temp[a][b] = generateNumbers[a][b];
+            }
+         }
+      } 
+
+      //generatedNumbers
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            System.out.print(generateNumbers[a][b]);
          }
          System.out.println();
       }
       System.out.println("---------");
 
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            System.out.print(temp[i][j]);
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            System.out.print(temp[a][b]);
          }
          System.out.println();
       }
     } 
 
-   private static int[][] getFreeCellList(int[][] grid) 
+   private static int[][] getEmptyCellList(int[][] grid) 
    {
 
-      int numberOfFreeCells = 0;
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            if (grid[i][j] == 0) {
-               numberOfFreeCells++;
+      int numberOfEmptyCells = 0;
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            if (grid[a][b] == 0) {
+               numberOfEmptyCells++;
             }
          }
       }
 
-      int[][] freeCellList = new int[numberOfFreeCells][2];
+      int[][] emptyCellList = new int[numberOfEmptyCells][2];
       int count = 0;
-      for (int i = 0; i < 9; i++) {
-         for (int j = 0; j < 9; j++) {
-            if (grid[i][j] == 0) {
-               freeCellList[count][0] = i;
-               freeCellList[count][1] = j;
+      for (int a = 0; a < 9; a++) {
+         for (int b = 0; b < 9; b++) {
+            if (grid[a][b] == 0) 
+            {
+               emptyCellList[count][0] = a;
+               emptyCellList[count][1] = b;
                count++;
             }
          }
       }
 
-      return freeCellList;
+      return emptyCellList;
    }
 
     private static boolean search(int[][] grid) 
     {
-      int[][] freeCellList = getFreeCellList(grid);
+      int[][] emptyCellList = getEmptyCellList(grid);
       int k = 0;
       boolean found = false;
 
       while (!found) {
          // get free element one by one
-         int i = freeCellList[k][0];
-         int j = freeCellList[k][1];
+         int a = emptyCellList[k][0];
+         int b = emptyCellList[k][1];
+
          // if element equal 0 give 1 to first test
-         if (grid[i][j] == 0) {
-            grid[i][j] = 1;
+         if (grid[a][b] == 0) {
+            grid[a][b] = 1;
          }
+
          // now check 1 if is available
-         if (isAvailable(i, j, grid)) {
+         if (isAvailable(a, b, grid)) {
             // if free is equal k ==> board solved
-            if (k + 1 == freeCellList.length) {
+            if (k + 1 == emptyCellList.length) {
                found = true;
             } else {
                k++;
             }
          }
-         // increase element by 1
-         else if (grid[i][j] < 9) {
-            grid[i][j] = grid[i][j] + 1;
+         // Increase element by 1
+         else if (grid[a][b] < 9) {
+            grid[a][b] = grid[a][b] + 1;
          }
-         // now if element value equal 9 backtrack to later element
+         
+         // now if value equals to 9 backtrack to later element
          else {
-            while (grid[i][j] == 9) {
-               grid[i][j] = 0;
+            while (grid[a][b] == 9) {
+               grid[a][b] = 0;
                if (k == 0) {
                   return false;
                }
                k--; // backtrack to later element
-               i = freeCellList[k][0];
-               j = freeCellList[k][1];
+               a = emptyCellList[k][0];
+               b = emptyCellList[k][1];
             }
-            grid[i][j] = grid[i][j] + 1;
+            grid[a][b] = grid[a][b] + 1;
          }
       }
 
@@ -203,75 +205,6 @@ public class Puzzle {
       }
    } 
 
-
-    public int getRandomNumber(int min, int max)
-    { 
-      int randomNum = min + (int)(Math.random() * ((max - min) + 1));
-      if (excludeList.size() > 0)
-      {
-         while (excludeList.contains(randomNum))
-         {
-            randomNum = min + (int)(Math.random() * ((max - min) + 1));
-            if (!excludeList.contains(randomNum))
-            {
-               return randomNum;
-            } 
-         }
-         // for (int i = 0; i < SudokuConstants.GRID_SIZE; i++) 
-         // {
-         //    randomNum = min + (int)(Math.random() * ((max - min) + 1));
-         //    if (!excludeList.contains(randomNum))
-         //    {
-         //       return randomNum;
-         //    } 
-         // }
-      }
-
-      return randomNum;
-   } 
-
-    public int bGetRandom(int min, int max, int nc)
-    {
-      if (nc == 0)
-      {
-         excludeList.clear();
-      }
-
-      int bRandomNum = min + (int)(Math.random() * ((max - min) + 1));
-      System.out.println("BTRY check" + bRandomNum);
-
-      if (VexcludeList.size() > 0)
-      {
-         System.out.println("debug " + excludeList.size());
-         if (nc > 0)
-         {
-            System.out.println(VexcludeList + " " + excludeList);
-            while ((VexcludeList.contains(bRandomNum)) && (excludeList.contains(bRandomNum)))
-            {
-               bRandomNum = min + (int)(Math.random() * ((max - min) + 1));
-               if ((!VexcludeList.contains(bRandomNum)) && (!excludeList.contains(bRandomNum)))
-               {
-                  System.out.println("B CHECKA: " + bRandomNum);
-                  return bRandomNum;
-               } 
-            }
-         }
-
-   
-         while ((VexcludeList.contains(bRandomNum)))
-         {
-            bRandomNum = min + (int)(Math.random() * ((max - min) + 1));
-            if ((!VexcludeList.contains(bRandomNum)))
-            {
-               System.out.println("B CHECK: " + bRandomNum);
-               return bRandomNum;
-            } 
-         }
-      }
-
-      System.out.println("B CHECK2: " + bRandomNum);
-      return bRandomNum;
-    }
  
     // Generate a new puzzle given the number of cells to be guessed, which can be used
     //  to control the difficulty level.
