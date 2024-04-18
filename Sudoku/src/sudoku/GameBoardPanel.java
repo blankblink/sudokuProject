@@ -15,7 +15,7 @@ public class GameBoardPanel extends JPanel {
 
    // Define properties
    /** The game board composes of 9x9 Cells (customized JTextFields) */
-   private Cell[][] cells = new Cell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
+   public Cell[][] cells = new Cell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
    /** It also contains a Puzzle with array numbers and isGiven */
    private Puzzle puzzle = new Puzzle();
 
@@ -80,14 +80,19 @@ public class GameBoardPanel extends JPanel {
             }
          }
       } 
-      return true; 
+      return true;
+       
    }
+
+   
 
    private class CellInputListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
        // Get a reference of the JTextField that triggers this action event
        Cell sourceCell = (Cell)e.getSource();
+
+      System.out.println("jojojojojojo " + sourceCell);
        
        // Retrieve the int entered
        int numberIn = Integer.parseInt(sourceCell.getText());
@@ -127,9 +132,17 @@ public class GameBoardPanel extends JPanel {
       isSolved(); 
       if (isSolved() == true)
       {
-         JOptionPane.showMessageDialog(null,"Congratluation!", 
+         SoundEffect.BGM.stop();
+         SoundEffect.CORRECT.stop();
+         SoundEffect.CONGRATULATION.play();
+         JOptionPane.showMessageDialog(null,"Congratulation!", 
          "Game Completed", JOptionPane.INFORMATION_MESSAGE);
+         SoundEffect.CONGRATULATION.stop();
+         SoundEffect.BGM.stillplay();
       } 
+      
+
+      
        /*
         * [TODO 6] (later)
         * Check if the player has solved the puzzle after this move,
