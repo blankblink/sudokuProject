@@ -2,11 +2,7 @@ package sudoku;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 /**
  * The main Sudoku program
  */
@@ -18,39 +14,42 @@ public class SudokuMain extends JFrame {
 
    // private variables
    GameBoardPanel board = new GameBoardPanel(); 
-   
-   JButton resetBtn = new JButton("Reset"); 
-   //JButton muteBtn = new JButton("mute"); 
-   //JButton unmuteBtn = new JButton("unmute");
+   JButton resetBtn = new JButton("Reset");
 
    // Constructor
    public SudokuMain() {
-      
+      Container cp = getContentPane(); 
+      cp.setLayout(new BorderLayout()); 
+
+      /* user Panel */ 
       JPanel userPanel = new JPanel();
-      userPanel.setBackground(Color.decode("#D4D4D4"));
-      userPanel.setLayout(new GridLayout(2, 4, 50, 20)); 
+      userPanel.setBackground(Color.decode("#F5DEB3"));
+      userPanel.setLayout(new FlowLayout()); 
 
       JButton muteBtn = new JButton("mute"); 
       muteBtn.setSize(20, 50);
-      userPanel.add(muteBtn);
+      userPanel.add(muteBtn); 
 
       JButton unmuteBtn = new JButton("unmute"); 
       unmuteBtn.setSize(20, 50);
       userPanel.add(unmuteBtn);
 
       JButton newGameBtn = new JButton("New Game"); 
-      newGameBtn.setSize(20, 50);
-      userPanel.add(newGameBtn);
 
-      Container cp = this.getContentPane();
-      cp.setLayout(new BorderLayout());
+      JRadioButton lightModeBtn = new JRadioButton("Light Mode");
+      JRadioButton darkModeBtn = new JRadioButton("Dark Mode"); 
+
+      lightModeBtn.setSelected(true);
+      lightModeBtn.setEnabled(false);
+
+      newGameBtn.setSize(20, 50); 
+
+      userPanel.add(newGameBtn); 
+      userPanel.add(lightModeBtn);
+      userPanel.add(darkModeBtn);
 
       cp.add(board, BorderLayout.CENTER); 
-      cp.add(userPanel, BorderLayout.SOUTH);
-      //cp.add(muteBtn, BorderLayout.NORTH);
-      //cp.add(unmuteBtn, BorderLayout.SOUTH);
-
-
+      cp.add(userPanel, BorderLayout.NORTH);
       // Add a button to the south to re-start the game via board.newGame()
       // ......
 
@@ -61,9 +60,8 @@ public class SudokuMain extends JFrame {
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // to handle window-closing
       setTitle("Sudoku");
       setVisible(true); 
-   
-    
-   newGameBtn.addActionListener(new ActionListener() 
+
+      newGameBtn.addActionListener(new ActionListener() 
       {
          @Override
          public void actionPerformed(ActionEvent e)
@@ -72,19 +70,17 @@ public class SudokuMain extends JFrame {
          }
       });
       //newGameBtn.addChangeListener(new ButtonHoverListener());
-   
-      
+
       unmuteBtn.addActionListener(new ActionListener() 
       {
          @Override
          public void actionPerformed(ActionEvent e)
          {
-            SoundEffect.BGM.stillplay();
             SoundEffect.BGM.unmute();
-            
+            SoundEffect.BGM.stillplay();
          }
-      });
-   
+      }); 
+
       muteBtn.addActionListener(new ActionListener() 
       {
          @Override
@@ -93,28 +89,47 @@ public class SudokuMain extends JFrame {
             SoundEffect.BGM.stop();
             SoundEffect.CORRECT.mute();  
          }
-      });
-      //newGameBtn.addChangeListener(new ButtonHoverListener());
-   }
-   
-   /*private class MyKeyListener implements KeyListener {
-      // Called back when a key has been typed (pressed and released)
-      @Override
-      public void keyTyped(KeyEvent evt) {
-         if(CellStatus.GIVEN==number){
-            
+      }); 
+
+      lightModeBtn.addActionListener(new ActionListener() {
+         @Override 
+         public void actionPerformed(ActionEvent e)
+         {
+            if (lightModeBtn.isSelected())
+            {
+               darkModeBtn.setSelected(false);
+               darkModeBtn.setEnabled(true);
+               lightModeBtn.setEnabled(false);
+
+               for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                  for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                     board.cells[row][col].paint();
+                  }
+               }
+            }
          }
-      }*/
-   /*private class ButtonHoverListener implements ChangeListener {
+      });
 
-      @Override
-      public void stateChanged(ChangeEvent e) {
-         JButton source = (JButton) e.getSource();
-         ButtonModel model = source.getModel();
-      }
-   }*/
+      darkModeBtn.addActionListener(new ActionListener() {
+         @Override 
+         public void actionPerformed(ActionEvent e)
+         {
+            if (darkModeBtn.isSelected())
+            {
+               lightModeBtn.setSelected(false);
+               lightModeBtn.setEnabled(true); 
+               darkModeBtn.setEnabled(false);
 
-   
+               for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                  for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                     board.cells[row][col].Dpaint();
+                  }
+               }
+            }
+         }
+      });
+
+   } 
 
    private static void createAndShowGUI() {
     JFrame frame = new JFrame("Sudoku");
@@ -129,6 +144,9 @@ public class SudokuMain extends JFrame {
       // [TODO 1] Check "Swing program template" on how to run
       //  the constructor of "SudokuMain"
       // ......... 
+
+      JOptionPane.showMessageDialog(null,"Hello!", 
+         "Welcome To Sudoku", JOptionPane.INFORMATION_MESSAGE);
       SoundEffect.BGM.stillplay();
       // Run GUI codes in the Event-Dispatching thread for thread safety
       SwingUtilities.invokeLater(new Runnable() {

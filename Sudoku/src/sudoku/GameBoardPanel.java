@@ -137,7 +137,6 @@ public class GameBoardPanel extends JPanel {
          SoundEffect.CONGRATULATION.play();
          JOptionPane.showMessageDialog(null,"Congratulation!", 
          "Game Completed", JOptionPane.INFORMATION_MESSAGE);
-         
          SoundEffect.CONGRATULATION.stop();
          SoundEffect.BGM.stillplay();
       } 
